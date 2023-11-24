@@ -1,13 +1,13 @@
 from argparse import ArgumentParser
 
-import api
+import api_wrapper
 import pandas as pd
 
 
 def main(_id):
     """https://www.e-stat.go.jp/stat-search/database"""
 
-    res = api.get_stats_data(_id, limit=None)
+    res = api_wrapper.get_stats_data(_id, limit=None)
 
     values = res["GET_STATS_DATA"]["STATISTICAL_DATA"]["DATA_INF"]["VALUE"]
     cls_obj = res["GET_STATS_DATA"]["STATISTICAL_DATA"]["CLASS_INF"]["CLASS_OBJ"]

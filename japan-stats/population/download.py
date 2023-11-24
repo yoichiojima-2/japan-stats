@@ -5,6 +5,7 @@ import re
 
 sys.path.append(str(Path(__file__).parent.parent))
 import fetch_api
+from common_process import cleanup_year
 
 
 def main():
@@ -20,7 +21,7 @@ def main():
     df = df[["year", "area", "sex", "age", "population"]].dropna()
     df = df.sort_values(["year", "area", "sex", "age"])
 
-    df.to_csv(Path(os.getenv("APPROOT")) / "data/population.csv")
+    df.to_csv(Path(os.getenv("APPROOT")) / "data/population.csv", index = False)
     print("saved population.csv")
 
 
@@ -37,12 +38,6 @@ def extract_age(value):
     _match = re.search(r"(\d{2})～(\d{2})", value)
     if _match:
         return _match.group(1), _match.group(2)
-
-
-def cleanup_year(year):
-    _match = re.search(r"\d*", year)
-    if _match:
-        return _match.group()
 
 
 if __name__ == "__main__":
