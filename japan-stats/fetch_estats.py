@@ -13,7 +13,7 @@ import api
 def main(_id):
     """https://www.e-stat.go.jp/stat-search/database"""
 
-    res = api.get_stats_data(_id, limit = None)
+    res = api.get_stats_data(_id, limit=None)
 
     values = res["GET_STATS_DATA"]["STATISTICAL_DATA"]["DATA_INF"]["VALUE"]
     cls_obj = res["GET_STATS_DATA"]["STATISTICAL_DATA"]["CLASS_INF"]["CLASS_OBJ"]
@@ -32,12 +32,13 @@ def main(_id):
             pass
 
         df[col_name] = df[col_name].apply(lambda x: _hash[x])
-    
-    return df.rename(columns = {"@" + i["@id"]: i["@name"] for i in cls_obj})
+
+    return df.rename(columns={"@" + i["@id"]: i["@name"] for i in cls_obj})
+
 
 def parse_args():
     parser = ArgumentParser()
-    parser.add_argument("--id", type = str)
+    parser.add_argument("--id", type=str)
     return parser.parse_args()
 
 

@@ -22,12 +22,17 @@ def get_stats_list(
     callback=None,
 ):
     appId = os.getenv("APPID")
-    return requests.get(f"https://api.e-stat.go.jp/rest/{VERSION}/app/json/getStatsList", params=locals()).json()
+    return requests.get(
+        f"https://api.e-stat.go.jp/rest/{VERSION}/app/json/getStatsList",
+        params=locals(),
+    ).json()
 
 
 def get_meta_info(statsDataId, explanationGetFlg=None, callback=None):
     appId = os.getenv("APPID")
-    return requests.get(f"https://api.e-stat.go.jp/rest/{VERSION}/app/json/getMetaInfo", params=locals()).json()
+    return requests.get(
+        f"https://api.e-stat.go.jp/rest/{VERSION}/app/json/getMetaInfo", params=locals()
+    ).json()
 
 
 def get_stats_data(
@@ -60,7 +65,10 @@ def get_stats_data(
     sectionHeaderFlg=None,
 ):
     appId = os.getenv("APPID")
-    return requests.get(f"https://api.e-stat.go.jp/rest/{VERSION}/app/json/getStatsData", params=locals()).json()
+    return requests.get(
+        f"https://api.e-stat.go.jp/rest/{VERSION}/app/json/getStatsData",
+        params=locals(),
+    ).json()
 
 
 def get_data_catalog(
@@ -80,4 +88,7 @@ def get_data_catalog(
     callback=None,
 ):
     appId = os.getenv("APPID")
-    return requests.get(f"https://api.e-stat.go.jp/rest/{VERSION}/app/json/getDataCatalog", params=locals()).json()
+    return requests.get(
+        f"https://api.e-stat.go.jp/rest/{VERSION}/app/json/getDataCatalog",
+        params=locals(),
+    ).json()
