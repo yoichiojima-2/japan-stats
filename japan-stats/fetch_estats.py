@@ -1,5 +1,6 @@
 import os
 import sys
+from argparse import ArgumentParser
 from dotenv import load_dotenv
 import pandas as pd
 
@@ -9,7 +10,7 @@ sys.path.append(os.getenv("APPROOT"))
 import api
 
 
-def fetch_estats(_id):
+def main(_id):
     """https://www.e-stat.go.jp/stat-search/database"""
 
     res = api.get_stats_data(_id, limit = None)
@@ -33,3 +34,13 @@ def fetch_estats(_id):
         df[col_name] = df[col_name].apply(lambda x: _hash[x])
     
     return df.rename(columns = {"@" + i["@id"]: i["@name"] for i in cls_obj})
+
+def parse_args():
+    parser = ArgumentParser()
+    parser.add_argument("--id", type = str)
+    return parser.parse_args()
+
+
+if __name__ == "__main__":
+    args = parse_args()
+    main(args.id)
