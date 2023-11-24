@@ -19,8 +19,6 @@ def fetch_estats(_id):
 
     df = pd.DataFrame(values)
 
-    rename_hash = {"@" + i["@id"]: i["@name"] for i in cls_obj}
-
     for i in cls_obj:
         _cls = i["CLASS"]
         col_name = "@" + i["@id"]
@@ -34,4 +32,4 @@ def fetch_estats(_id):
 
         df[col_name] = df[col_name].apply(lambda x: _hash[x])
     
-    return df.rename(columns = rename_hash)
+    return df.rename(columns = {"@" + i["@id"]: i["@name"] for i in cls_obj})
