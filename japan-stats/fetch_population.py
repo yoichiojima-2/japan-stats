@@ -10,10 +10,8 @@ def main():
     df["age"] = df["Ａ　人口・世帯"].apply(extract_age)
     df["year"] = df["調査年"].apply(cleanup_year)
     df = df.rename(columns={"地域": "area", "$": "population"})
-
-    return df.dropna()[["year", "area", "sex", "age", "population"]].sort_values(
-        ["year", "area", "sex", "age"]
-    )
+    df = df.dropna()[["year", "area", "sex", "age", "population"]]
+    return df.sort_values(["year", "area", "sex", "age"])
 
 
 def extract_sex(value):
