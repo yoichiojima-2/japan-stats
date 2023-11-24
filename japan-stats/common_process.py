@@ -7,8 +7,8 @@ def cleanup_year(year):
         return _match.group()
 
 
-def strip_prefix(metrix_title):
-    return re.sub(r"\w\d*_", "", metrix_title)
+def strip_prefix(feature):
+    return re.sub(r"\w\d*_", "", feature)
 
 
 def cleanup(df, feature_col):
