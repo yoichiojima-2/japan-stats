@@ -7,6 +7,15 @@ def cleanup_year(year):
         return _match.group()
 
 
+def extract_sex(feature):
+    if "女" in feature:
+        return "F"
+    elif "男" in feature:
+        return "M"
+    else:
+        return None
+
+
 def strip_prefix(feature):
     return re.sub(r"\w\d*_", "", feature)
 

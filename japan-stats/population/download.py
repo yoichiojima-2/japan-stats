@@ -5,7 +5,7 @@ import re
 
 sys.path.append(str(Path(__file__).parent.parent))
 import fetch_api
-from common_process import cleanup_year, cleanup
+from common_process import cleanup_year, cleanup, extract_sex
 
 
 def main():
@@ -22,15 +22,6 @@ def main():
 
     df.to_csv(Path(os.getenv("APPROOT")) / "data/population.csv", index = False)
     print("saved population.csv")
-
-
-def extract_sex(feature):
-    if "女" in feature:
-        return "F"
-    elif "男" in feature:
-        return "M"
-    else:
-        return None
 
 
 def extract_age(feature):
