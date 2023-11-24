@@ -4,11 +4,11 @@ from pathlib import Path
 import re
 
 sys.path.append(str(Path(__file__).parent.parent))
-import fetch_estats
+import fetch_api
 
 
 def main():
-    df = fetch_estats.main("0000010101")
+    df = fetch_api.main("0000010101")
 
     df = df[df["地域"] != "全国"]
 
