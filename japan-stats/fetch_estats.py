@@ -10,7 +10,7 @@ import api
 
 
 def fetch_estats(_id):
-    """https://www.e-stat.go.jp/stat-search/database?page=1&layout=datalist&toukei=00200502&tstat=000001111375&cycle=8&tclass1=000001111377&result_page=1&tclass2val=0"""
+    """https://www.e-stat.go.jp/stat-search/database"""
 
     res = api.get_stats_data(_id, limit = None)
 
