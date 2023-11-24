@@ -5,20 +5,19 @@ import re
 
 sys.path.append(str(Path(__file__).parent.parent))
 import fetch_api
-from common_process import cleanup_year
+from common_process import cleanup_year, cleanup
 
 
 def main():
     df = fetch_api.main("0000010101")
+    df = cleanup(df, "Ａ　人口・世帯")
 
-    df = df[df["地域"] != "全国"]
+    df = df[df["area"] != "全国"]
 
-    df["sex"] = df["Ａ　人口・世帯"].apply(extract_sex)
-    df["age"] = df["Ａ　人口・世帯"].apply(extract_age)
-    df["year"] = df["調査年"].apply(cleanup_year)
+    df["sex"] = df["feature"].apply(extract_sex)
+    df["age"] = df["feature"].apply(extract_age)
 
-    df = df.rename(columns={"地域": "area", "$": "population"})
-    df = df[["year", "area", "sex", "age", "population"]].dropna()
+    df = df[["year", "area", "sex", "age", "value"]].dropna()
     df = df.sort_values(["year", "area", "sex", "age"])
 
     df.to_csv(Path(os.getenv("APPROOT")) / "data/population.csv", index = False)
