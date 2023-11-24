@@ -28,14 +28,3 @@ def main(_id):
         df[col_name] = df[col_name].apply(lambda x: _hash[x])
 
     return df.rename(columns={"@" + i["@id"]: i["@name"] for i in cls_obj})
-
-
-def parse_args():
-    parser = ArgumentParser()
-    parser.add_argument("--id", type=str)
-    return parser.parse_args()
-
-
-if __name__ == "__main__":
-    args = parse_args()
-    main(args.id)
