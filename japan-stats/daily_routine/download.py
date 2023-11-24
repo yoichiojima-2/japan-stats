@@ -7,7 +7,7 @@ import unicodedata
 sys.path.append(str(Path(__file__).parent.parent))
 
 import fetch_api
-from common_process import cleanup_year, strip_prefix, cleanup, extract_sex
+from common import cleanup_year, strip_prefix, cleanup, extract_sex, DATA_PATH
 
 
 def main():
@@ -15,7 +15,7 @@ def main():
     df = cleanup(df, "Ｍ　生活時間")
     df["sex"] = df["feature"].apply(extract_sex)
 
-    df.to_csv(Path(os.getenv("APPROOT")) / "data/daily_routine.csv", index = False)
+    df.to_csv(DATA_PATH / "daily_routine.csv", index=False)
     print("saved daily_routine.csv")
 
 

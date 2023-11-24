@@ -1,4 +1,11 @@
+import os
 import re
+from pathlib import Path
+from dotenv import load_dotenv
+
+
+load_dotenv()
+DATA_PATH = Path(os.getenv("APPROOT")) / "data"
 
 
 def cleanup_year(year):
@@ -23,5 +30,5 @@ def strip_prefix(feature):
 def cleanup(df, feature_col):
     df["year"] = df["調査年"].apply(cleanup_year)
     df["feature"] = df[feature_col].apply(strip_prefix)
-    df = df.rename(columns = {"地域": "area", "@unit": "unit", "$": "value"})
+    df = df.rename(columns={"地域": "area", "@unit": "unit", "$": "value"})
     return df[["feature", "year", "area", "unit", "value"]]

@@ -5,7 +5,7 @@ import re
 
 sys.path.append(str(Path(__file__).parent.parent))
 import fetch_api
-from common_process import cleanup_year, cleanup, extract_sex
+from common import cleanup_year, cleanup, extract_sex, DATA_PATH
 
 
 def main():
@@ -20,7 +20,7 @@ def main():
     df = df[["year", "area", "sex", "age", "value"]].dropna()
     df = df.sort_values(["year", "area", "sex", "age"])
 
-    df.to_csv(Path(os.getenv("APPROOT")) / "data/population.csv", index = False)
+    df.to_csv(DATA_PATH / "population.csv", index=False)
     print("saved population.csv")
 
 
