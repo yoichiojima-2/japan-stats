@@ -24,17 +24,17 @@ def main():
     print("saved population.csv")
 
 
-def extract_sex(value):
-    if "女" in value:
+def extract_sex(feature):
+    if "女" in feature:
         return "F"
-    elif "男" in value:
+    elif "男" in feature:
         return "M"
     else:
         return None
 
 
-def extract_age(value):
-    _match = re.search(r"(\d{2})～(\d{2})", value)
+def extract_age(feature):
+    _match = re.search(r"(\d{2})～(\d{2})", feature)
     if _match:
         return _match.group(1), _match.group(2)
 
