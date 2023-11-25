@@ -1,5 +1,5 @@
-import sys
 import re
+import sys
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent.parent))
@@ -7,9 +7,8 @@ sys.path.append(str(Path(__file__).parent.parent))
 import fetch_api
 from common import DATA_PATH
 
-
 DOWNLOAD_PATH = DATA_PATH / "download"
-DOWNLOAD_PATH.mkdir(parents = True, exist_ok = True)
+DOWNLOAD_PATH.mkdir(parents=True, exist_ok=True)
 
 
 def population():
