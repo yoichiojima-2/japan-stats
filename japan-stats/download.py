@@ -1,132 +1,132 @@
-import os
 import sys
 import re
 from pathlib import Path
-from dotenv import load_dotenv
 
 sys.path.append(str(Path(__file__).parent.parent))
 
 import fetch_api
+from common import DATA_PATH
 
-load_dotenv()
-DATA_PATH = Path(os.getenv("APPROOT")) / "data"
+
+DOWNLOAD_PATH = DATA_PATH / "download"
+DOWNLOAD_PATH.mkdir(parents = True, exist_ok = True)
 
 
 def population():
     df = fetch_api.main("0000010101")
-    df = cleanup(df, "Ａ　人口・世帯")
+    df = cleanup(df, "Ａ　人口・世帯", "population")
 
     df = df[df["area"] != "全国"]
 
     df["sex"] = df["feature"].apply(extract_sex)
     df["age"] = df["feature"].apply(extract_age)
 
-    df = df[["year", "area", "sex", "age", "value"]].dropna()
+    df = df[["feature", "year", "area", "sex", "age", "category", "value"]].dropna()
     df = df.sort_values(["year", "area", "sex", "age"])
 
-    output = DATA_PATH / "population.csv"
+    output = DOWNLOAD_PATH / "population.csv"
     df.to_csv(output, index=False)
     print(f"saved {output}")
 
 
 def environment():
     df = fetch_api.main("0000010102")
-    df = cleanup(df, "Ｂ　自然環境")
+    df = cleanup(df, "Ｂ　自然環境", "environment")
 
-    output = DATA_PATH / "environment.csv"
+    output = DOWNLOAD_PATH / "environment.csv"
     df.to_csv(output, index=False)
     print(f"saved {output}")
 
 
 def economics():
     df = fetch_api.main("0000010103")
-    df = cleanup(df, "Ｃ　経済基盤")
+    df = cleanup(df, "Ｃ　経済基盤", "economics")
 
-    output = DATA_PATH / "economics.csv"
+    output = DOWNLOAD_PATH / "economics.csv"
     df.to_csv(output, index=False)
     print(f"saved {output}")
 
 
 def administration():
     df = fetch_api.main("0000010104")
-    df = cleanup(df, "Ｄ　行政基盤")
+    df = cleanup(df, "Ｄ　行政基盤", "administration")
 
-    output = DATA_PATH / "administration.csv"
+    output = DOWNLOAD_PATH / "administration.csv"
     df.to_csv(output, index=False)
     print(f"saved {output}")
 
 
 def education():
     df = fetch_api.main("0000010105")
-    df = cleanup(df, "Ｅ　教育")
+    df = cleanup(df, "Ｅ　教育", "education")
 
-    output = DATA_PATH / "education.csv"
+    output = DOWNLOAD_PATH / "education.csv"
     df.to_csv(output, index=False)
     print(f"saved {output}")
 
 
 def labour():
     df = fetch_api.main("0000010106")
-    df = cleanup(df, "Ｆ　労働")
+    df = cleanup(df, "Ｆ　労働", "labour")
     df["sex"] = df["feature"].apply(extract_sex)
 
-    output = DATA_PATH / "labour.csv"
+    output = DOWNLOAD_PATH / "labour.csv"
     df.to_csv(output, index=False)
     print(f"saved {output}")
 
 
 def culture():
     df = fetch_api.main("0000010107")
-    df = cleanup(df, "Ｇ　文化・スポーツ")
+    df = cleanup(df, "Ｇ　文化・スポーツ", "culture")
 
-    output = DATA_PATH / "culture.csv"
+    output = DOWNLOAD_PATH / "culture.csv"
     df.to_csv(output, index=False)
     print(f"saved {output}")
 
 
 def housing():
     df = fetch_api.main("0000010108")
-    df = cleanup(df, "Ｈ　居住")
+    df = cleanup(df, "Ｈ　居住", "housing")
 
-    output = DATA_PATH / "housing.csv"
+    output = DOWNLOAD_PATH / "housing.csv"
     df.to_csv(output, index=False)
     print(f"saved {output}")
 
 
 def medical_care():
     df = fetch_api.main("0000010109")
-    df = cleanup(df, "Ｉ　健康・医療")
+    df = cleanup(df, "Ｉ　健康・医療", "medical_care")
     df["sex"] = df["feature"].apply(extract_sex)
 
-    output = DATA_PATH / "medical_care.csv"
+    output = DOWNLOAD_PATH / "medical_care.csv"
     df.to_csv(output, index=False)
     print(f"saved {output}")
 
 
 def social_security():
     df = fetch_api.main("0000010110")
-    df = cleanup(df, "Ｊ　福祉・社会保障")
+    df = cleanup(df, "Ｊ　福祉・社会保障", "social_security")
 
-    output = DATA_PATH / "social_security.csv"
+    output = DOWNLOAD_PATH / "social_security.csv"
     df.to_csv(output, index=False)
     print(f"saved {output}")
 
 
 def household_finances():
     df = fetch_api.main("0000010112")
-    df = cleanup(df, "Ｌ　家計")
+    df = cleanup(df, "Ｌ　家計", "household_finances")
 
-    output = DATA_PATH / "household_finances.csv"
+    output = DOWNLOAD_PATH / "household_finances.csv"
     df.to_csv(output, index=False)
     print(f"saved {output}")
 
 
 def daily_routine():
     df = fetch_api.main("0000010113")
-    df = cleanup(df, "Ｍ　生活時間")
+    df = cleanup(df, "Ｍ　生活時間", "daily_routine")
     df["sex"] = df["feature"].apply(extract_sex)
 
-    output = DATA_PATH / "daily_routine.csv"
+    output = DOWNLOAD_PATH / "daily_routine.csv"
     df.to_csv(output, index=False)
     print(f"saved {output}")
 
@@ -171,11 +171,12 @@ def strip_prefix(feature):
     return re.sub(r"\w\d*_", "", feature)
 
 
-def cleanup(df, feature_col):
+def cleanup(df, feature_col, category):
     df["year"] = df["調査年"].apply(cleanup_year)
     df["feature"] = df[feature_col].apply(strip_prefix)
+    df["category"] = category
     df = df.rename(columns={"地域": "area", "@unit": "unit", "$": "value"})
-    return df[["feature", "year", "area", "unit", "value"]]
+    return df[["feature", "year", "area", "category", "unit", "value"]]
 
 
 if __name__ == "__main__":
