@@ -21,7 +21,7 @@ def population():
 
     output = DOWNLOAD_PATH / "population.csv"
     df.to_csv(output, index=False)
-    print(f"saved {output}")
+    print(f"saved: {output.name}")
 
 
 def environment():
@@ -30,7 +30,7 @@ def environment():
 
     output = DOWNLOAD_PATH / "environment.csv"
     df.to_csv(output, index=False)
-    print(f"saved {output}")
+    print(f"saved: {output.name}")
 
 
 def economics():
@@ -39,7 +39,7 @@ def economics():
 
     output = DOWNLOAD_PATH / "economics.csv"
     df.to_csv(output, index=False)
-    print(f"saved {output}")
+    print(f"saved: {output.name}")
 
 
 def administration():
@@ -48,7 +48,7 @@ def administration():
 
     output = DOWNLOAD_PATH / "administration.csv"
     df.to_csv(output, index=False)
-    print(f"saved {output}")
+    print(f"saved: {output.name}")
 
 
 def education():
@@ -57,7 +57,7 @@ def education():
 
     output = DOWNLOAD_PATH / "education.csv"
     df.to_csv(output, index=False)
-    print(f"saved {output}")
+    print(f"saved: {output.name}")
 
 
 def labour():
@@ -67,7 +67,7 @@ def labour():
 
     output = DOWNLOAD_PATH / "labour.csv"
     df.to_csv(output, index=False)
-    print(f"saved {output}")
+    print(f"saved: {output.name}")
 
 
 def culture():
@@ -76,7 +76,7 @@ def culture():
 
     output = DOWNLOAD_PATH / "culture.csv"
     df.to_csv(output, index=False)
-    print(f"saved {output}")
+    print(f"saved: {output.name}")
 
 
 def housing():
@@ -85,7 +85,7 @@ def housing():
 
     output = DOWNLOAD_PATH / "housing.csv"
     df.to_csv(output, index=False)
-    print(f"saved {output}")
+    print(f"saved: {output.name}")
 
 
 def medical_care():
@@ -95,7 +95,7 @@ def medical_care():
 
     output = DOWNLOAD_PATH / "medical_care.csv"
     df.to_csv(output, index=False)
-    print(f"saved {output}")
+    print(f"saved: {output.name}")
 
 
 def social_security():
@@ -104,7 +104,7 @@ def social_security():
 
     output = DOWNLOAD_PATH / "social_security.csv"
     df.to_csv(output, index=False)
-    print(f"saved {output}")
+    print(f"saved: {output.name}")
 
 
 def household_finances():
@@ -113,7 +113,7 @@ def household_finances():
 
     output = DOWNLOAD_PATH / "household_finances.csv"
     df.to_csv(output, index=False)
-    print(f"saved {output}")
+    print(f"saved: {output.name}")
 
 
 def daily_routine():
@@ -123,7 +123,7 @@ def daily_routine():
 
     output = DOWNLOAD_PATH / "daily_routine.csv"
     df.to_csv(output, index=False)
-    print(f"saved {output}")
+    print(f"saved: {output.name}")
 
 
 def download_all():
