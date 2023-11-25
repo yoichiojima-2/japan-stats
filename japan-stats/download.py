@@ -1,10 +1,15 @@
+import os
 import sys
+import re
 from pathlib import Path
+from dotenv import load_dotenv
 
 sys.path.append(str(Path(__file__).parent.parent))
 
 import fetch_api
-from common import cleanup, extract_sex, extract_age, DATA_PATH
+
+load_dotenv()
+DATA_PATH = Path(os.getenv("APPROOT")) / "data"
 
 
 def population():
@@ -125,3 +130,53 @@ def daily_routine():
     df.to_csv(output, index=False)
     print(f"saved {output}")
 
+
+def download_all():
+    population()
+    environment()
+    economics()
+    administration()
+    education()
+    labour()
+    culture()
+    housing()
+    medical_care()
+    social_security()
+    household_finances()
+    daily_routine()
+
+
+def cleanup_year(year):
+    _match = re.search(r"\d*", year)
+    if _match:
+        return _match.group()
+
+
+def extract_sex(feature):
+    if "女" in feature:
+        return "F"
+    elif "男" in feature:
+        return "M"
+    else:
+        return None
+
+
+def extract_age(feature):
+    _match = re.search(r"(\d{2})～(\d{2})", feature)
+    if _match:
+        return _match.group(1), _match.group(2)
+
+
+def strip_prefix(feature):
+    return re.sub(r"\w\d*_", "", feature)
+
+
+def cleanup(df, feature_col):
+    df["year"] = df["調査年"].apply(cleanup_year)
+    df["feature"] = df[feature_col].apply(strip_prefix)
+    df = df.rename(columns={"地域": "area", "@unit": "unit", "$": "value"})
+    return df[["feature", "year", "area", "unit", "value"]]
+
+
+if __name__ == "__main__":
+    download_all()
