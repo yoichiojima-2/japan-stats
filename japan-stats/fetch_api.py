@@ -1,5 +1,3 @@
-from argparse import ArgumentParser
-
 import api_wrapper
 import pandas as pd
 

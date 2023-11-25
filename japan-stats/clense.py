@@ -1,12 +1,4 @@
-import os
-import sys
-
 import pandas as pd
-from dotenv import load_dotenv
-
-load_dotenv()
-sys.path.append(os.getenv("APPROOT"))
-
 from common import DATA_PATH
 
 CLENSED_DATA_PATH = DATA_PATH / "clensed"
