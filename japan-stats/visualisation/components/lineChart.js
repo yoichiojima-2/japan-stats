@@ -1,8 +1,15 @@
-import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+} from "recharts";
 
 const MyLineChart = ({ data }) => (
   <LineChart width={500} height={300} data={data}>
-    <XAxis dataKey="year"/>
+    <XAxis dataKey="year" />
     <YAxis />
     <Tooltip />
     <CartesianGrid />
