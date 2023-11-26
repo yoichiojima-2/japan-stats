@@ -6,8 +6,9 @@ CLENSED_DATA_PATH.mkdir(parents=True, exist_ok=True)
 
 
 def social_stats():
-    DOWNLOAD_PATH = DATA_PATH / "download"
+    DOWNLOAD_PATH = DATA_PATH / "download/social_stats"
     df = pd.concat([pd.read_csv(i) for i in DOWNLOAD_PATH.rglob("*.csv")])
+
     output = CLENSED_DATA_PATH / "social_stats.csv"
     df.to_csv(output, index=False)
     print(f"saved: {output.name}")

@@ -3,7 +3,7 @@ import re
 import fetch_api
 from common import DATA_PATH
 
-DOWNLOAD_PATH = DATA_PATH / "download"
+DOWNLOAD_PATH = DATA_PATH / "download/social_stats"
 DOWNLOAD_PATH.mkdir(parents=True, exist_ok=True)
 
 
