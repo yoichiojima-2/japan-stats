@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import parse_csv from '../utils/parse_csv';
 import MyLineChart from "../components/lineChart";
+import fetch_features from "../utils/social_stats/fetch_features";
 
 const MyChartComponent = () => {
     const [data, setData] = useState([]);
@@ -11,6 +12,7 @@ const MyChartComponent = () => {
             setData(parsedData)
             console.log(parsedData)
         })
+        fetch_features()
     }, [])
 
     return <MyLineChart data={data}/>;
