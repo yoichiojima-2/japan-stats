@@ -25,6 +25,8 @@ app.add_middleware(
 
 @app.get("/social_stats/features")
 def get_social_stats_features():
-    df = pd.read_csv(CLENSED_PATH / "social_stats.csv")
+    df = (
+        pd.read_csv(CLENSED_PATH / "social_stats.csv")
+    )
     features = list({i for i in df["feature"].values})
     return {"values": features}
