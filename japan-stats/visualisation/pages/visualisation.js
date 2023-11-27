@@ -15,7 +15,7 @@ const Visualisation = () => {
 
   return (
     <>
-      <p>hello I'm visualisation</p>
+      <h1>visualisation</h1>
       {features.map((f, index) => (
         <p key={index}>{f}</p>
       ))}
