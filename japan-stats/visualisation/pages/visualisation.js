@@ -16,8 +16,8 @@ const Visualisation = () => {
   return (
     <>
       <h1>visualisation</h1>
-      {features.map((f, index) => (
-        <p key={index}>{f}</p>
+      {features.map((f, i) => (
+        <p key={i}>{f}</p>
       ))}
     </>
   );
