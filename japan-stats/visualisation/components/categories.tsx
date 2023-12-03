@@ -10,9 +10,11 @@ const Categories: React.FC<CategoriesProps> = ({ handleCategory }) => {
 
   useEffect(() => {
     const fetchCategories = async () => {
+      console.log(`${Categories.name}: fetching categories..`)
       const res = await fetch("http://localhost:8000/social_stats/categories");
       const data = await res.json();
       setCategories(data);
+      console.log(`${Categories.name}: categories fetched.`)
     };
     fetchCategories();
   }, []);

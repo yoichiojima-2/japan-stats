@@ -11,11 +11,13 @@ const Features: FC<FeaturesProps> = ({ category, handleFeature }) => {
 
   useEffect(() => {
     const fetchFeatures = async () => {
+      console.log(`${Features.name}: fetching features (${category})..`)
       const res = await fetch(
         `http://localhost:8000/social_stats/features?category=${category}`,
       );
       const data = await res.json();
       setFeatures(data);
+      console.log(`${Features.name}: features fetched (${category}).`)
     };
     fetchFeatures();
   }, [category]);

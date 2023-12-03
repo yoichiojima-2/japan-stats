@@ -10,12 +10,12 @@ const Home: FC = () => {
 
   const handleCategory = (category: string): void => {
     setCategory(category);
-    console.log(`category: ${category}`);
+    console.log(`${Home.name}: category = ${category}`);
   };
 
   const handleFeature = (feature: string): void => {
     setFeature(feature);
-    console.log(`feature: ${feature}`);
+    console.log(`${Home.name}: feature = ${feature}`);
   };
 
   return (
