@@ -10,20 +10,20 @@ const Home: FC = () => {
 
   const handleCategory = (category: string): void => {
     setCategory(category);
-    console.log(category);
+    console.log(`category: ${category}`);
   };
 
   const handleFeature = (feature: string): void => {
-    setCategory(feature);
-    console.log(feature);
+    setFeature(feature);
+    console.log(`feature: ${feature}`);
   };
 
   return (
     <main className="container md mx-36 my-14">
       <h1 className="text-4xl my-10">Japan Stats</h1>
       <div className="flex justify-center">
-        <Categories setCategory={handleCategory} />
-        <Features category={category} setFeature={handleFeature} />
+        <Categories handleCategory={handleCategory} />
+        <Features category={category} handleFeature={handleFeature} />
       </div>
     </main>
   );
