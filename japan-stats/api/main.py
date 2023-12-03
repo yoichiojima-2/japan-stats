@@ -23,8 +23,16 @@ app.add_middleware(
 )
 
 
-@app.get("/social_stats/features")
-def get_social_stats_features():
+@app.get("/social_stats/categories")
+def get_social_stats_category():
     df = pd.read_csv(CLENSED_PATH / "social_stats.csv")
+    categories = list({i for i in df["category"].values})
+    return list(sorted(categories))
+
+@app.get("/social_stats/features")
+def get_social_stats_features(category: str = None):
+    df = pd.read_csv(CLENSED_PATH / "social_stats.csv")
+    if category:
+        df = df[df["category"] == category]
     features = list({i for i in df["feature"].values})
-    return features
+    return list(sorted(features))
