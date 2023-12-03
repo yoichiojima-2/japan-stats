@@ -1,30 +1,38 @@
-'use client'
-
+"use client";
 import { FC, useState, useEffect } from "react";
 
-
 interface FeaturesProps {
-  category: string
+  category: string;
+  handleFeature: (feature: string) => void;
 }
 
-const Features: FC<FeaturesProps> = ({ category }) => {
-  const [features, setFeatures] = useState<string[]>([])
+const Features: FC<FeaturesProps> = ({ category, handleFeature }) => {
+  const [features, setFeatures] = useState<string[]>([]);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/social_stats/features?category=${category}`)
-      .then((response) => response.json())
-      .then((data) => setFeatures(data))
-  }, [category])
+    const fetchFeatures = async () => {
+      const res = await fetch(
+        `http://localhost:8000/social_stats/features?category=${category}`,
+      );
+      const data = await res.json();
+      setFeatures(data);
+    };
+    fetchFeatures();
+  }, [category]);
 
   return (
     <div>
       {features.map((f, index) => (
-        <div key={index} className="m-3 p-3 border rounded-lg hover:bg-gray-200 hover:text-black">
+        <div
+          key={index}
+          className="p-3 border hover:bg-gray-200 hover:text-black"
+          onClick={() => handleFeature(f)}
+        >
           <p>{f}</p>
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default Features
+export default Features;
