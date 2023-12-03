@@ -1,5 +1,7 @@
 "use client";
-import React, { useState, useEffect } from "react";
+
+import { useState, useEffect } from "react";
+import Tag from "./tag";
 
 interface CategoriesProps {
   handleCategory: (category: string) => void;
@@ -10,25 +12,20 @@ const Categories: React.FC<CategoriesProps> = ({ handleCategory }) => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      console.log(`${Categories.name}: fetching categories..`)
+      console.log(`${Categories.name}: fetching categories..`);
       const res = await fetch("http://localhost:8000/social_stats/categories");
       const data = await res.json();
       setCategories(data);
-      console.log(`${Categories.name}: categories fetched.`)
+      console.log(`${Categories.name}: categories fetched.`);
     };
     fetchCategories();
   }, []);
 
   return (
     <div>
+      <h2 className="text-2xl my-10">Categories</h2>
       {categories.map((c, index) => (
-        <div
-          key={index}
-          className="p-3 border hover:bg-gray-200 hover:text-black"
-          onClick={() => handleCategory(c)}
-        >
-          <p>{c}</p>
-        </div>
+        <Tag key={index} onClick={() => handleCategory(c)}>{c}</Tag>
       ))}
     </div>
   );

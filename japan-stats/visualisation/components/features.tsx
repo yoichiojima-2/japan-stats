@@ -1,5 +1,6 @@
 "use client";
 import { FC, useState, useEffect } from "react";
+import Tag from "./tag";
 
 interface FeaturesProps {
   category: string;
@@ -11,27 +12,22 @@ const Features: FC<FeaturesProps> = ({ category, handleFeature }) => {
 
   useEffect(() => {
     const fetchFeatures = async () => {
-      console.log(`${Features.name}: fetching features (${category})..`)
+      console.log(`${Features.name}: fetching features (${category})..`);
       const res = await fetch(
         `http://localhost:8000/social_stats/features?category=${category}`,
       );
       const data = await res.json();
       setFeatures(data);
-      console.log(`${Features.name}: features fetched (${category}).`)
+      console.log(`${Features.name}: features fetched (${category}).`);
     };
     fetchFeatures();
   }, [category]);
 
   return (
     <div>
+      <h2 className="text-2xl my-10">Features</h2>
       {features.map((f, index) => (
-        <div
-          key={index}
-          className="p-3 border hover:bg-gray-200 hover:text-black"
-          onClick={() => handleFeature(f)}
-        >
-          <p>{f}</p>
-        </div>
+        <Tag key={index} onClick={() => handleFeature(f)}>{f}</Tag>
       ))}
     </div>
   );
