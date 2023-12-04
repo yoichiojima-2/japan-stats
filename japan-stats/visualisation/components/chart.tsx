@@ -27,7 +27,12 @@ const Chart: React.FC<ChartProps> = ({ feature, area }) => {
     fetchData();
   }, [feature, area]);
 
-  return <LineChart label={feature} labels={labels} value={value} />;
+  return (
+    <div>
+      <h2 className="text-2xl my-10">{feature}</h2>
+      <LineChart label={feature} labels={labels} value={value} />
+    </div>
+  );
 };
 
 export default Chart;

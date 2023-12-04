@@ -39,8 +39,9 @@ const LineChart: React.FC<LineChartProps> = ({ label, labels, value }) => {
       },
     ],
   };
+  const options = {scales: {y: {min: 0}}}
 
-  return <Line data={data} />;
+  return <Line data={data} options={options}/>;
 };
 
 export default LineChart;

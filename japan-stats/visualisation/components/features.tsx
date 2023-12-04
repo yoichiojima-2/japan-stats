@@ -9,6 +9,7 @@ interface FeaturesProps {
 
 const Features: FC<FeaturesProps> = ({ category, handleFeature }) => {
   const [features, setFeatures] = useState<string[]>([]);
+  const [displayLimit, setDisplayLimit] = useState<number>(10);
 
   useEffect(() => {
     const fetchFeatures = async () => {
@@ -23,14 +24,23 @@ const Features: FC<FeaturesProps> = ({ category, handleFeature }) => {
     fetchFeatures();
   }, [category]);
 
+  const handleLoadMore = () => {
+    setDisplayLimit(prevLimit => prevLimit + 10); // Increase limit by 10 (or any number you prefer)
+  };
+
   return (
     <div>
       <h2 className="text-2xl my-10">Features</h2>
-      {features.map((f, index) => (
+      {features.slice(0, displayLimit).map((f, index) => (
         <Tag key={index} onClick={() => handleFeature(f)}>
           {f}
         </Tag>
       ))}
+      {displayLimit < features.length && (
+        <button onClick={handleLoadMore} className="load-more-btn">
+          Load More
+        </button>
+      )}
     </div>
   );
 };
