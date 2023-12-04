@@ -3,7 +3,7 @@
 import { FC, useState } from "react";
 import Categories from "@/components/categories";
 import Features from "@/components/features";
-import Values from "@/components/values";
+import Chart from "@/components/chart";
 
 const Home: FC = () => {
   const [category, setCategory] = useState<string>("");
@@ -24,7 +24,7 @@ const Home: FC = () => {
       <h1 className="text-4xl my-10">Japan Stats</h1>
       <Categories handleCategory={handleCategory} />
       <Features category={category} handleFeature={handleFeature} />
-      <Values feature={feature} area="東京都" />
+      <Chart feature={feature} area="東京都" />
     </main>
   );
 };

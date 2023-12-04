@@ -27,7 +27,9 @@ const Features: FC<FeaturesProps> = ({ category, handleFeature }) => {
     <div>
       <h2 className="text-2xl my-10">Features</h2>
       {features.map((f, index) => (
-        <Tag key={index} onClick={() => handleFeature(f)}>{f}</Tag>
+        <Tag key={index} onClick={() => handleFeature(f)}>
+          {f}
+        </Tag>
       ))}
     </div>
   );

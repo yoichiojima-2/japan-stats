@@ -25,7 +25,9 @@ const Categories: React.FC<CategoriesProps> = ({ handleCategory }) => {
     <div>
       <h2 className="text-2xl my-10">Categories</h2>
       {categories.map((c, index) => (
-        <Tag key={index} onClick={() => handleCategory(c)}>{c}</Tag>
+        <Tag key={index} onClick={() => handleCategory(c)}>
+          {c}
+        </Tag>
       ))}
     </div>
   );
