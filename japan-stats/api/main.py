@@ -67,5 +67,6 @@ def get_social_stats_values(feature: str, area: str):
         .set_index("year")
         .sort_index()
     )
+    print(df)
     for idx, val in df.iterrows():
         yield {"year": idx, "value": int(val["value"])}
