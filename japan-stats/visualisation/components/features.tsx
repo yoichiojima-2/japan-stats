@@ -1,4 +1,3 @@
-"use client";
 import { FC, useState, useEffect } from "react";
 import Tag from "./tag";
 
@@ -9,7 +8,7 @@ interface FeaturesProps {
 
 const Features: FC<FeaturesProps> = ({ category, handleFeature }) => {
   const [features, setFeatures] = useState<string[]>([]);
-  const [displayLimit, setDisplayLimit] = useState<number>(10);
+  const [selectedFeature, setSelectedFeature] = useState<string>("");
 
   useEffect(() => {
     const fetchFeatures = async () => {
@@ -24,23 +23,26 @@ const Features: FC<FeaturesProps> = ({ category, handleFeature }) => {
     fetchFeatures();
   }, [category]);
 
-  const handleLoadMore = () => {
-    setDisplayLimit(prevLimit => prevLimit + 10); // Increase limit by 10 (or any number you prefer)
+  const handleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const feature = event.target.value;
+    setSelectedFeature(feature);
+    handleFeature(feature); // Calling the parent component's handler
   };
 
   return (
     <div>
       <h2 className="text-2xl my-10">Features</h2>
-      {features.slice(0, displayLimit).map((f, index) => (
-        <Tag key={index} onClick={() => handleFeature(f)}>
-          {f}
-        </Tag>
-      ))}
-      {displayLimit < features.length && (
-        <button onClick={handleLoadMore} className="load-more-btn">
-          Load More
-        </button>
-      )}
+      <select
+        value={selectedFeature}
+        onChange={handleDropdownChange}
+        className="mb-4 p-2 border rounded"
+      >
+        <option value="">Select a feature</option>
+        {features.map((feature, index) => (
+          <option key={index} value={feature}>{feature}</option>
+        ))}
+      </select>
+      {selectedFeature && <Tag onClick={() => handleFeature(selectedFeature)}>{selectedFeature}</Tag>}
     </div>
   );
 };

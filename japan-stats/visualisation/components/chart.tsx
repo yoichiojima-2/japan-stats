@@ -28,11 +28,12 @@ const Chart: React.FC<ChartProps> = ({ feature, area }) => {
   }, [feature, area]);
 
   return (
-    <div>
-      <h2 className="text-2xl my-10">{feature}</h2>
-      <LineChart label={feature} labels={labels} value={value} />
-    </div>
+    <div className="bg-white shadow-lg p-4 rounded-lg">
+    <h2 className="text-2xl font-semibold text-gray-800 mb-4">{feature}</h2>
+    <LineChart label={feature} labels={labels} value={value} />
+  </div>
   );
 };
 
 export default Chart;
+
