@@ -3,7 +3,6 @@ from enum import Enum
 import dataclasses
 import requests
 from requests.models import Response
-import dotenv
 import pandas as pd
 
 
@@ -29,7 +28,7 @@ def get_data(stat_id: str) -> Response:
     }
     return requests.get(base_url, params = params)
 
-def extract_data(res: Response) -> pd.DataFrame:
+def extract_values(res: Response) -> pd.DataFrame:
     return pd.DataFrame(res.json()["GET_STATS_DATA"]["STATISTICAL_DATA"]["DATA_INF"]["VALUE"])
 
 @dataclasses.dataclass
