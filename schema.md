@@ -1,3 +1,4 @@
+```json
 {
   response: {
     GET_STATS_DATA: {
@@ -50,3 +51,4 @@
     }
   }
 }
+```
