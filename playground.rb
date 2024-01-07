@@ -27,18 +27,23 @@ def get_data(id)
   params = {
     appId: ENV['APP_ID'],
     statsDataId: id,
+    limit: 10
   }
   uri = URI(base_url)
   uri.query = URI.encode_www_form(params)
-  Net::HTTP.get_response(uri)
+  res = Net::HTTP.get_response(uri)
+  JSON.parse(res.body)["GET_STATS_DATA"]["STATISTICAL_DATA"]
 end
 
-def get_keys(response)
-  data = JSON.parse(response.body)
-  puts data["GET_STATS_DATA"]["STATISTICAL_DATA"]["DATA_INF"]["VALUE"]
+def extract_classes(data)
+  data["CLASS_INF"]["CLASS_OBJ"]
 end
 
+def extract_values(data)
+  data["DATA_INF"]["VALUE"]
+end
 
-res = get_data(stats_id_list[:population])
-puts get_keys(res)
+data = get_data(stats_id_list[:population])
+puts extract_classes(data)
+puts extract_values(data)
 
