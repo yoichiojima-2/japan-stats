@@ -1,6 +1,7 @@
 import os
 from enum import Enum
 import dataclasses
+import pathlib
 import requests
 from requests.models import Response
 import pandas as pd
@@ -50,3 +51,15 @@ def extract_classes(res: Response) -> list[ClassData]:
             )
         )
     return class_list
+
+def output_feature_list():
+    p = pathlib.Path("./feature_list.txt")
+    p.touch()
+    with p.open("w", encoding = "utf-8") as f:
+        for stat in StatId:
+            f.write(stat.name + "\n")
+            data = get_data(stat.value)
+            for cls in extract_classes(data):
+                if cls.id == "cat01":
+                    for feature in cls.data["@name"]:
+                        f.write(f"\t - {feature}\n")
