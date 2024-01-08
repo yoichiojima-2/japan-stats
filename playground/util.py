@@ -58,7 +58,7 @@ class StatsData:
         return class_list
 
 
-def fetch(endpoint: str, params: dict[str, str]):
+def fetch(endpoint: str, params: dict[str, str]) -> Response:
     base_url: str = f"https://api.e-stat.go.jp/rest/{os.getenv('API_VERSION')}/app/json/"
     url = urllib.parse.urljoin(base_url, endpoint)
     return requests.get(url, params=params)
@@ -70,12 +70,12 @@ def extract_num_from_code(code: str) -> int:
         return int(match_obj.group(1))
 
 
-def query_by_cat01(cat01: str):
+def query_by_cat01(cat01: str) -> Response:
     endpoint: str = "getStatsData"
     params: dict[str, str] = {
         "appId": os.getenv("APP_ID"),
         "statsDataId": StatId.population.value,
-        "cdCat01": i,
+        "cdCat01": cat01,
     }
     return fetch(endpoint, params)
 
