@@ -1,4 +1,6 @@
 import dataclasses
+import os
+import urllib
 
 import pandas as pd
 import requests
@@ -31,3 +33,9 @@ class StatsData:
                 )
             )
         return class_list
+
+
+def fetch(endpoint: str, params: dict[str, str]) -> requests.models.Response:
+    base_url: str = f"https://api.e-stat.go.jp/rest/{os.getenv('API_VERSION')}/app/json/"
+    url = urllib.parse.urljoin(base_url, endpoint)
+    return requests.get(url, params=params)

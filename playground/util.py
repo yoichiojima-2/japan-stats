@@ -3,7 +3,6 @@ import os
 import pathlib
 import re
 import sqlite3
-import urllib
 
 import dotenv
 import pandas as pd
@@ -21,7 +20,7 @@ def create_population_table_1():
         "appId": os.getenv("APP_ID"),
         "statsDataId": StatId.population.value,
     }
-    stats_res = fetch(endpoint, params_comprehensive)
+    stats_res = lib.fetch(endpoint, params_comprehensive)
     stats_data = lib.StatsData(stats_res)
 
     for i in stats_data.get_class():
@@ -60,12 +59,6 @@ class StatId(enum.Enum):
     daily_routine: str = "0000010112"
 
 
-def fetch(endpoint: str, params: dict[str, str]) -> requests.models.Response:
-    base_url: str = f"https://api.e-stat.go.jp/rest/{os.getenv('API_VERSION')}/app/json/"
-    url = urllib.parse.urljoin(base_url, endpoint)
-    return requests.get(url, params=params)
-
-
 def extract_num_from_code(code: str) -> int:
     match_obj = re.search(r"A([0-9]*)", code)
     if match_obj:
@@ -79,7 +72,7 @@ def query_by_cat01(cat01: str) -> requests.models.Response:
         "statsDataId": StatId.population.value,
         "cdCat01": cat01,
     }
-    return fetch(endpoint, params)
+    return lib.fetch(endpoint, params)
 
 
 if __name__ == "__main__":
