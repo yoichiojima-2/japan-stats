@@ -1,15 +1,16 @@
-import os
-import enum
 import dataclasses
+import enum
+import os
 import pathlib
 import re
 import sqlite3
-import requests
-from requests.models import Response
-import tqdm
-import pandas as pd
 import urllib
+
 import dotenv
+import pandas as pd
+import requests
+import tqdm
+from requests.models import Response
 
 
 def main():
