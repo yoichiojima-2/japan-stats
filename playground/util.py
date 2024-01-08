@@ -10,7 +10,6 @@ import dotenv
 import pandas as pd
 import requests
 import tqdm
-from requests.models import Response
 
 
 def main():
@@ -69,7 +68,7 @@ class ClassData:
 
 @dataclasses.dataclass
 class StatsData:
-    response: Response
+    response: requests.models.Response
 
     def get_values(self) -> pd.DataFrame:
         return pd.DataFrame(self.response.json()["GET_STATS_DATA"]["STATISTICAL_DATA"]["DATA_INF"]["VALUE"])
@@ -89,7 +88,7 @@ class StatsData:
         return class_list
 
 
-def fetch(endpoint: str, params: dict[str, str]) -> Response:
+def fetch(endpoint: str, params: dict[str, str]) -> requests.models.Response:
     base_url: str = f"https://api.e-stat.go.jp/rest/{os.getenv('API_VERSION')}/app/json/"
     url = urllib.parse.urljoin(base_url, endpoint)
     return requests.get(url, params=params)
@@ -101,7 +100,7 @@ def extract_num_from_code(code: str) -> int:
         return int(match_obj.group(1))
 
 
-def query_by_cat01(cat01: str) -> Response:
+def query_by_cat01(cat01: str) -> requests.models.Response:
     endpoint: str = "getStatsData"
     params: dict[str, str] = {
         "appId": os.getenv("APP_ID"),
