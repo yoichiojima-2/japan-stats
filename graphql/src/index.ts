@@ -1,19 +1,32 @@
 import { ApolloServer, gql } from 'apollo-server';
 
-const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`
 
-const resolvers = {
-  Query: {
-    hello: (): string => 'hello world'
-  },
+const run = () => {
+  const typeDefs = gql`
+    type Query {
+      hello: String
+    }
+  `
+
+  const resolvers = {
+    Query: {
+      hello: (): string => 'hello world'
+    },
+  };
+
+  const server = new ApolloServer({ typeDefs, resolvers });
+
+  server.listen().then(({ url }) => {
+    console.log(`🚀 Server ready at ${url}`);
+  });
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
+// run();
 
-server.listen().then(({ url }) => {
-  console.log(`🚀 Server ready at ${url}`);
-})
+// playground
+
+const url: string = "https://google.com";
+fetch(url)
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+
