@@ -17,11 +17,11 @@ def create_population_table_1():
     dotenv.load_dotenv()
 
     endpoint: str = "getStatsData"
-    params_conpregensive: dict[str, str] = {
+    params_comprehensive: dict[str, str] = {
         "appId": os.getenv("APP_ID"),
         "statsDataId": StatId.population.value,
     }
-    stats_res = fetch(endpoint, params_conpregensive)
+    stats_res = fetch(endpoint, params_comprehensive)
     stats_data = lib.StatsData(stats_res)
 
     for i in stats_data.get_class():
