@@ -6,13 +6,13 @@ import sqlite3
 import urllib
 
 import dotenv
+import lib
 import pandas as pd
 import requests
-import stats_data
 import tqdm
 
 
-def main():
+def create_population_table_1():
     dotenv.load_dotenv()
 
     endpoint: str = "getStatsData"
@@ -21,7 +21,7 @@ def main():
         "statsDataId": StatId.population.value,
     }
     stats_res = fetch(endpoint, params_conpregensive)
-    stats_data = stats_data.StatsData(stats_res)
+    stats_data = lib.StatsData(stats_res)
 
     for i in stats_data.get_class():
         if i.id == "cat01":
@@ -33,14 +33,14 @@ def main():
     dfs: list[pd.DataFrame] = []
     for i in tqdm.tqdm(population_age_gender_codes, desc="fetching data"):
         res = query_by_cat01(i)
-        i_stats_data = stats_data.StatsData(res)
+        i_stats_data = lib.StatsData(res)
         dfs.append(i_stats_data.get_values())
 
     p = pathlib.Path("./data")
     p.mkdir(exist_ok=True, parents=True)
 
     conn = sqlite3.connect("./data/population.db")
-    pd.concat(dfs).to_sql("sex_age_area", conn, if_exists="replace")
+    pd.concat(dfs).to_sql("record", conn, if_exists="replace")
     print("done.")
 
 
@@ -82,4 +82,4 @@ def query_by_cat01(cat01: str) -> requests.models.Response:
 
 
 if __name__ == "__main__":
-    main()
+    create_population_table_1()
