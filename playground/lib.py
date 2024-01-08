@@ -29,9 +29,7 @@ def get_data(stat_id: str) -> Response:
 
 
 def extract_values(res: Response) -> pd.DataFrame:
-    return pd.DataFrame(
-        res.json()["GET_STATS_DATA"]["STATISTICAL_DATA"]["DATA_INF"]["VALUE"]
-    )
+    return pd.DataFrame(res.json()["GET_STATS_DATA"]["STATISTICAL_DATA"]["DATA_INF"]["VALUE"])
 
 
 @dataclasses.dataclass
@@ -68,10 +66,8 @@ def output_feature_list():
             for cls in extract_classes(data):
                 if cls.id == "cat01":
                     for code, feature in zip(cls.data["@code"], cls.data["@name"]):
-                        formatted_feature = feature.replace(code + '_', '')
-                        f.write(
-                            f"\t - {code:<10} | {formatted_feature}\n"
-                        )
+                        formatted_feature = feature.replace(code + "_", "")
+                        f.write(f"\t - {code:<10} | {formatted_feature}\n")
 
             f.write("\n")
             print("done.")
