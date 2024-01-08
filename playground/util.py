@@ -40,7 +40,7 @@ def create_population_table_1():
     p.mkdir(exist_ok=True, parents=True)
 
     conn = sqlite3.connect("./data/population.db")
-    pd.concat(dfs).to_sql("record", conn, if_exists="replace")
+    pd.concat(dfs).to_sql("record", conn, if_exists="replace", index=False)
     print("done.")
 
 
