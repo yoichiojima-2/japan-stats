@@ -12,7 +12,7 @@ import tqdm
 import lib
 
 
-def create_population_table_1():
+def create_population_db():
     dotenv.load_dotenv()
 
     endpoint: str = "getStatsData"
@@ -20,10 +20,12 @@ def create_population_table_1():
         "appId": os.getenv("APP_ID"),
         "statsDataId": StatId.population.value,
     }
+    print("fetching class data...")
     stats_res = lib.fetch(endpoint, params_comprehensive)
     stats_data = lib.StatsData(stats_res)
+    classes = stats_data.get_class()
 
-    for i in stats_data.get_class():
+    for i in classes:
         if i.id == "cat01":
             cat01_df = i.data
 
@@ -31,7 +33,7 @@ def create_population_table_1():
     population_age_gender_codes = cat01_df[cat01_df["num_in_code"].between(120101, 122102)]["@code"].to_list()
 
     dfs: list[pd.DataFrame] = []
-    for i in tqdm.tqdm(population_age_gender_codes, desc="fetching data"):
+    for i in tqdm.tqdm(population_age_gender_codes, desc="fetching record data..."):
         res = query_by_cat01(i)
         i_stats_data = lib.StatsData(res)
         dfs.append(i_stats_data.get_values())
@@ -39,9 +41,17 @@ def create_population_table_1():
     p = pathlib.Path("./data")
     p.mkdir(exist_ok=True, parents=True)
 
-    conn = sqlite3.connect("./data/population.db")
-    pd.concat(dfs).to_sql("record", conn, if_exists="replace", index=False)
-    print("done.")
+    population_conn = sqlite3.connect("./data/population.db")
+    pd.concat(dfs).to_sql("record", population_conn, if_exists="replace", index=False)
+    print("record data saved.")
+
+    class_conn = sqlite3.connect("./data/class.db")
+    for i in tqdm.tqdm(classes, desc="saving class data..."):
+        i.data.to_sql(i.id, class_conn, if_exists="replace", index=False)
+
+    print("class data saved")
+
+    print("done")
 
 
 class StatId(enum.Enum):
@@ -76,4 +86,4 @@ def query_by_cat01(cat01: str) -> requests.models.Response:
 
 
 if __name__ == "__main__":
-    create_population_table_1()
+    create_population_db()
