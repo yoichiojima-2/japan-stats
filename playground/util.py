@@ -6,10 +6,11 @@ import sqlite3
 import urllib
 
 import dotenv
-import lib
 import pandas as pd
 import requests
 import tqdm
+
+import lib
 
 
 def create_population_table_1():
