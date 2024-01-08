@@ -68,8 +68,10 @@ def output_feature_list():
             for cls in extract_classes(data):
                 if cls.id == "cat01":
                     for code, feature in zip(cls.data["@code"], cls.data["@name"]):
+                        formatted_feature = feature.replace(code + '_', '')
                         f.write(
-                            f"\t - {code:<10} | {feature.replace(code + '_', '')}\n"
+                            f"\t - {code:<10} | {formatted_feature}\n"
                         )
 
             f.write("\n")
+            print("done.")
