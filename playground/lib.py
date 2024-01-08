@@ -41,8 +41,7 @@ class ClassData:
 
 def extract_classes(res: Response) -> list[ClassData]:
     class_list: list[ClassData] = []
-    class_obj = res.json()["GET_STATS_DATA"]
-    class_obj = class_obj["STATISTICAL_DATA"]["CLASS_INF"]["CLASS_OBJ"]
+    class_obj = res.json()["GET_STATS_DATA"]["STATISTICAL_DATA"]["CLASS_INF"]["CLASS_OBJ"]
     for c in class_obj:
         data = c["CLASS"]
         class_list.append(
