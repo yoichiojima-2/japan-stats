@@ -1,4 +1,3 @@
-import dataclasses
 import enum
 import os
 import pathlib
@@ -9,6 +8,7 @@ import urllib
 import dotenv
 import pandas as pd
 import requests
+import stats_data
 import tqdm
 
 
@@ -21,7 +21,7 @@ def main():
         "statsDataId": StatId.population.value,
     }
     stats_res = fetch(endpoint, params_conpregensive)
-    stats_data = StatsData(stats_res)
+    stats_data = stats_data.StatsData(stats_res)
 
     for i in stats_data.get_class():
         if i.id == "cat01":
@@ -33,7 +33,7 @@ def main():
     dfs: list[pd.DataFrame] = []
     for i in tqdm.tqdm(population_age_gender_codes, desc="fetching data"):
         res = query_by_cat01(i)
-        i_stats_data = StatsData(res)
+        i_stats_data = stats_data.StatsData(res)
         dfs.append(i_stats_data.get_values())
 
     p = pathlib.Path("./data")
@@ -57,35 +57,6 @@ class StatId(enum.Enum):
     social_security: str = "0000010110"
     household_finance: str = "0000010111"
     daily_routine: str = "0000010112"
-
-
-@dataclasses.dataclass
-class ClassData:
-    id: str
-    name: str
-    data: pd.DataFrame
-
-
-@dataclasses.dataclass
-class StatsData:
-    response: requests.models.Response
-
-    def get_values(self) -> pd.DataFrame:
-        return pd.DataFrame(self.response.json()["GET_STATS_DATA"]["STATISTICAL_DATA"]["DATA_INF"]["VALUE"])
-
-    def get_class(self) -> list[ClassData]:
-        class_list: list[ClassData] = []
-        class_obj = self.response.json()["GET_STATS_DATA"]["STATISTICAL_DATA"]["CLASS_INF"]["CLASS_OBJ"]
-        for c in class_obj:
-            data = c["CLASS"]
-            class_list.append(
-                ClassData(
-                    id=c["@id"],
-                    name=c["@name"],
-                    data=pd.DataFrame(data if isinstance(data, list) else [data]),
-                )
-            )
-        return class_list
 
 
 def fetch(endpoint: str, params: dict[str, str]) -> requests.models.Response:
