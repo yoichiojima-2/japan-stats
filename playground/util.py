@@ -11,7 +11,37 @@ import pandas as pd
 import urllib
 import dotenv
 
-dotenv.load_dotenv()
+
+def main():
+    dotenv.load_dotenv()
+
+    endpoint: str = "getStatsData"
+    params_conpregensive: dict[str, str] = {
+        "appId": os.getenv("APP_ID"),
+        "statsDataId": StatId.population.value,
+    }
+    stats_res = fetch(endpoint, params_conpregensive)
+    stats_data = StatsData(stats_res)
+
+    for i in stats_data.get_class():
+        if i.id == "cat01":
+            cat01_df = i.data
+
+    cat01_df["num_in_code"] = cat01_df["@code"].apply(lambda x: extract_num_from_code(x))
+    population_age_gender_codes = cat01_df[cat01_df["num_in_code"].between(120101, 122102)]["@code"].to_list()
+
+    dfs: list[pd.DataFrame] = []
+    for i in tqdm.tqdm(population_age_gender_codes, desc="fetching data"):
+        res = query_by_cat01(i)
+        i_stats_data = StatsData(res)
+        dfs.append(i_stats_data.get_values())
+
+    p = pathlib.Path("./data")
+    p.mkdir(exist_ok=True, parents=True)
+
+    conn = sqlite3.connect("./data/population.db")
+    pd.concat(dfs).to_sql("sex_age_area", conn, if_exists="replace")
+    print("done.")
 
 
 class StatId(enum.Enum):
@@ -78,36 +108,6 @@ def query_by_cat01(cat01: str) -> Response:
         "cdCat01": cat01,
     }
     return fetch(endpoint, params)
-
-
-def main():
-    endpoint: str = "getStatsData"
-    params_conpregensive: dict[str, str] = {
-        "appId": os.getenv("APP_ID"),
-        "statsDataId": StatId.population.value,
-    }
-    stats_res = fetch(endpoint, params_conpregensive)
-    stats_data = StatsData(stats_res)
-
-    for i in stats_data.get_class():
-        if i.id == "cat01":
-            cat01_df = i.data
-
-    cat01_df["num_in_code"] = cat01_df["@code"].apply(lambda x: extract_num_from_code(x))
-    population_age_gender_codes = cat01_df[cat01_df["num_in_code"].between(120101, 122102)]["@code"].to_list()
-
-    dfs: list[pd.DataFrame] = []
-    for i in tqdm.tqdm(population_age_gender_codes, desc="fetching data"):
-        res = query_by_cat01(i)
-        i_stats_data = StatsData(res)
-        dfs.append(i_stats_data.get_values())
-
-    p = pathlib.Path("./data")
-    p.mkdir(exist_ok=True, parents=True)
-
-    conn = sqlite3.connect("./data/population.db")
-    pd.concat(dfs).to_sql("sex_age_area", conn, if_exists="replace")
-    print("done.")
 
 
 if __name__ == "__main__":
