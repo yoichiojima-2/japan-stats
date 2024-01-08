@@ -5,11 +5,10 @@ import re
 import sqlite3
 
 import dotenv
+import lib
 import pandas as pd
 import requests
 import tqdm
-
-import lib
 
 
 def create_population_db():
