@@ -26,7 +26,7 @@ def create_population_db():
 
     for i in classes:
         if i.id == "cat01":
-            cat01_df = i.data
+            cat01_df = i.data.copy()
 
     cat01_df["num_in_code"] = cat01_df["@code"].apply(lambda x: extract_num_from_code(x))
     population_age_gender_codes = cat01_df[cat01_df["num_in_code"].between(120101, 122102)]["@code"].to_list()
@@ -40,13 +40,12 @@ def create_population_db():
     p = pathlib.Path("./data")
     p.mkdir(exist_ok=True, parents=True)
 
-    population_conn = sqlite3.connect("./data/population.db")
-    pd.concat(dfs).to_sql("record", population_conn, if_exists="replace", index=False)
+    conn = sqlite3.connect("./data/japan-stats.db")
+    pd.concat(dfs).to_sql("population_record", conn, if_exists="replace", index=False)
     print("record data saved.")
 
-    class_conn = sqlite3.connect("./data/class.db")
     for i in tqdm.tqdm(classes, desc="saving class data..."):
-        i.data.to_sql(i.id, class_conn, if_exists="replace", index=False)
+        i.data.to_sql(i.id, conn, if_exists="replace", index=False)
 
     print("class data saved")
 
